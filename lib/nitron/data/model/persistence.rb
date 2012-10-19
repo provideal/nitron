@@ -58,6 +58,23 @@ module Nitron
           !(new_record? || destroyed?)
         end
       
+        def update_attributes(attributes={})
+
+          if context = managedObjectContext
+            error = Pointer.new(:object)
+            klass = Kernel.const_get(self.entity.name)
+            relation = Nitron::Data::Relation.alloc.initWithClass(klass)
+            relation.fetchLimit = 1
+            relation = relation.where("id = ?", self.id)
+            model = context.executeFetchRequest(relation, error:error).first
+            attributes.each do |keyPath, value|
+              model.setValue(value, forKey:keyPath)
+            end
+            context.save(error)
+          end
+
+        end
+
         def save
           begin
             save!
