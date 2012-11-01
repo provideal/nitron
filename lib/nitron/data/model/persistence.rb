@@ -58,8 +58,7 @@ module Nitron
           !(new_record? || destroyed?)
         end
       
-        def update_attributes(attributes={})
-
+        def update(attributes={})
           if context = managedObjectContext
             error = Pointer.new(:object)
             klass = Kernel.const_get(self.entity.name)
@@ -72,7 +71,6 @@ module Nitron
             end
             context.save(error)
           end
-
         end
 
         def save
