@@ -27,7 +27,7 @@ module Nitron
             alloc.initWithEntity(entity_description, insertIntoManagedObjectContext:nil).tap do |model|
               model.instance_variable_set('@new_record', true)
               attributes.each do |keyPath, value|
-                model.setValue(value, forKey:keyPath) if entity.properties.include?(keyPath)
+                model.setValue(value, forKey:keyPath) if model.entity.properties.include?(keyPath)
               end
             end
           end
@@ -67,7 +67,7 @@ module Nitron
             relation = relation.where("id = ?", self.id)
             model = context.executeFetchRequest(relation, error:error).first
             attributes.each do |keyPath, value|
-              model.setValue(value, forKey:keyPath) if entity.properties.include?(keyPath)
+              model.setValue(value, forKey:keyPath) if model.entity.properties.include?(keyPath)
             end
             context.save(error)
           end
