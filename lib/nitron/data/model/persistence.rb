@@ -28,7 +28,7 @@ module Nitron
               model.instance_variable_set('@new_record', true)
               attributes.each do |keyPath, value|
                 begin
-                  model.setValue(value, forKey:keyPath) if entity.properties.include?(keyPath)
+                  model.setValue(value, forKey:keyPath)
                 rescue
                 end
               end
