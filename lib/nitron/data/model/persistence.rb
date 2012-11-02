@@ -30,6 +30,7 @@ module Nitron
                 begin
                   model.setValue(value, forKey:keyPath)
                 rescue
+                  next
                 end
               end
             end
@@ -73,6 +74,7 @@ module Nitron
               begin
                 model.setValue(value, forKey:keyPath)
               rescue
+                next
               end
             end
             context.save(error)
