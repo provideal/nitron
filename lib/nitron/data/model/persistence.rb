@@ -26,12 +26,9 @@ module Nitron
           def new(attributes={})
             alloc.initWithEntity(entity_description, insertIntoManagedObjectContext:nil).tap do |model|
               model.instance_variable_set('@new_record', true)
+              def model.setValue(value, forUndefinedKey:key); end
               attributes.each do |keyPath, value|
-                begin
-                  model.setValue(value, forKey:keyPath)
-                rescue
-                  next
-                end
+                model.setValue(value, forKey:keyPath)
               end
             end
           end
@@ -70,12 +67,9 @@ module Nitron
             relation.fetchLimit = 1
             relation = relation.where("id = ?", self.id)
             model = context.executeFetchRequest(relation, error:error).first
+            def model.setValue(value, forUndefinedKey:key); end
             attributes.each do |keyPath, value|
-              begin
-                model.setValue(value, forKey:keyPath)
-              rescue
-                next
-              end
+              model.setValue(value, forKey:keyPath) 
             end
             context.save(error)
           end
