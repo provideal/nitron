@@ -52,7 +52,8 @@ module Nitron
             
         def order(column, opts={})
           descriptors = sortDescriptors || []
-          descriptors << NSSortDescriptor.sortDescriptorWithKey(column.to_s, ascending:opts.fetch(:ascending, true))
+          # descriptors << NSSortDescriptor.sortDescriptorWithKey(column.to_s, ascending:opts.fetch(:ascending, true))
+          descriptors << NSSortDescriptor.alloc.initWithKey(column.to_s, ascending:opts.fetch(:ascending, true), selector:'localizedCaseInsensitiveCompare:')
           self.sortDescriptors = descriptors
           self
         end
